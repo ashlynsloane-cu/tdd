@@ -20,5 +20,20 @@ class TestGetColumnIndex(unittest.TestCase):
         self.assertIsNone(result)
 
 
+class TestGetData(unittest.TestCase):
+
+    def test_get_all_rows(self):
+        result = fire_gdp.get_data("test/data/test_co2.csv")
+        expected = [
+            ["Brazil", "2003", ""],
+            ["Brazil", "2004", "10.0"],
+            ["Brazil", "2005", "20.5"],
+            ["Brazil", "2006", "30.0"],
+            ["Brazil", "2007", "40.0"],
+            ["Argentina", "2005", "5.0"],
+        ]
+        self.assertEqual(result, expected)
+
+
 if __name__ == "__main__":
     unittest.main()
