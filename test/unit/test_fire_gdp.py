@@ -80,6 +80,17 @@ class TestGetFireGDPYearData(unittest.TestCase):
         ]
         self.assertEqual(result, expected)
 
+    def test_output_types(self):
+        result = fire_gdp.get_fire_gdp_year_data(
+            "test/data/test_co2.csv",
+            "test/data/test_gdp.csv",
+            "Brazil",
+        )
+
+        self.assertIsInstance(result[0][0], int)
+        self.assertIsInstance(result[0][1], float)
+        self.assertIsInstance(result[0][2], float)
+
 
 if __name__ == "__main__":
     unittest.main()
