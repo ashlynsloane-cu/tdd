@@ -21,6 +21,9 @@ def get_data(file_name,
             for row in reader:
                 rows.append(row)
 
+    if return_header:
+        return header, rows
+
     return rows
 
 
