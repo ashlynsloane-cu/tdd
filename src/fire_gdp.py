@@ -11,8 +11,15 @@ def get_data(file_name,
         reader = csv.reader(file)
         header = next(reader)
 
-        for row in reader:
-            rows.append(row)
+        if query_column is not None and query_value is not None:
+            query_index = get_column_index(header, query_column)
+
+            for row in reader:
+                if row[query_index] == query_value:
+                    rows.append(row)
+        else:
+            for row in reader:
+                rows.append(row)
 
     return rows
 
