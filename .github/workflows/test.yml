@@ -1,0 +1,37 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install matplotlib pycodestyle
+
+      - name: Run unit tests
+        run: |
+          python -m unittest discover -s test/unit -p "test_*.py" -v
+
+      - name: Run functional tests
+        run: |
+          bash test/func/test_fire_gdp.sh
+
+      - name: Run style checks
+        run: |
+          pycodestyle src/fire_gdp.py src/plot_fire_gdp.py test/unit/test_fire_gdp.py
