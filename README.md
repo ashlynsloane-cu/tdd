@@ -31,8 +31,10 @@ Agrofood CO2 emissions dataset, while GDP comes from the IMF GDP dataset.
 GDP is reported in millions of each country's local currency, so countries are
 analyzed separately rather than pooling GDP values across countries.
 
-Four countries were examined: Brazil, India, the United States of America, and
-the United Kingdom of Great Britain and Northern Ireland.
+Assignment 6 examined four countries in detail: Brazil, India, the United
+States of America, and the United Kingdom of Great Britain and Northern
+Ireland. The Assignment 8 Snakemake workflow expands the analysis to include
+Argentina, Australia, Canada, and China.
 
 ## Results
 
@@ -68,6 +70,22 @@ in GDP cause changes in forest-fire emissions.
 ### United Kingdom of Great Britain and Northern Ireland
 
 ![United Kingdom forest-fire emissions versus GDP](results/united_kingdom_fire_gdp.png)
+
+### Argentina
+
+![Argentina forest-fire emissions versus GDP](results/argentina_fire_gdp.png)
+
+### Australia
+
+![Australia forest-fire emissions versus GDP](results/australia_fire_gdp.png)
+
+### Canada
+
+![Canada forest-fire emissions versus GDP](results/canada_fire_gdp.png)
+
+### China
+
+![China forest-fire emissions versus GDP](results/china_fire_gdp.png)
 
 ## Methods
 
@@ -134,3 +152,53 @@ Run style checks with:
 ```bash
 pycodestyle src/fire_gdp.py src/plot_fire_gdp.py test/unit/test_fire_gdp.py
 ```
+
+## Snakemake Workflow
+
+The analysis is managed with Snakemake. The workflow uses a country wildcard
+to generate forest-fire emissions versus GDP plots for multiple countries
+using the same plotting rule.
+
+The current workflow generates plots for:
+
+- Argentina
+- Australia
+- Brazil
+- Canada
+- China
+- India
+- United States of America
+- United Kingdom of Great Britain and Northern Ireland
+
+To preview the jobs Snakemake would run without executing them:
+
+    snakemake -n
+
+To run the complete workflow with one core:
+
+    snakemake -j 1
+
+Snakemake tracks the input data and output plots so that completed outputs do
+not need to be regenerated unless an input changes or an output is missing.
+
+## Workflow Testing Ideas
+
+Workflow testing should verify both the individual analysis code and the
+connections between workflow steps.
+
+Possible workflow tests include:
+
+1. Run `snakemake -n` to verify that Snakemake can construct the workflow DAG
+   without syntax or dependency errors.
+2. Run the workflow on small test input files and confirm that all expected
+   output files are created.
+3. Delete one expected output file and rerun Snakemake to verify that only the
+   missing or outdated output is regenerated.
+4. Check that running Snakemake again after a successful workflow reports that
+   all requested files are present and up to date.
+5. Test invalid or missing input files and confirm that the workflow fails
+   rather than silently producing incorrect output.
+6. Compare outputs generated from known test data with expected results.
+7. Run the existing unit and functional tests together with the workflow in
+   continuous integration so that changes to the analysis code cannot silently
+   break the workflow.
