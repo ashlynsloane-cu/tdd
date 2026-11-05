@@ -1,5 +1,12 @@
+import sys
+
+
 COUNTRIES = {
+    "argentina": "Argentina",
+    "australia": "Australia",
     "brazil": "Brazil",
+    "canada": "Canada",
+    "china": "China",
     "india": "India",
     "united_states": "United States of America",
     "united_kingdom":
@@ -22,11 +29,11 @@ rule plot_fire_gdp:
     output:
         "results/{country}_fire_gdp.png"
     params:
-        country=lambda wildcards: COUNTRIES[wildcards.country]
+        country=lambda wildcards: COUNTRIES[wildcards.country],
+        python=sys.executable,
     shell:
         """
-        /Users/ashlynsloane/.pixi/envs/snakemake/bin/python \
-            src/plot_fire_gdp.py \
+        {params.python} src/plot_fire_gdp.py \
             --co2 {input.co2} \
             --gdp {input.gdp} \
             --country "{params.country}" \
